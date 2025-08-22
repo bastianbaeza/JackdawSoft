@@ -1,0 +1,519 @@
+/* Estilos mejorados para la página de login */
+.login-wrapper {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem;
+  position: relative;
+}
+
+/* Fallback para navegadores que no soporten dvh */
+@supports not (height: 100dvh) {
+  .login-wrapper {
+    min-height: 100vh;
+  }
+}
+
+/* Overlay de fondo */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.8), rgba(30, 41, 59, 0.3));
+  z-index: 0;
+}
+
+/* Contenedor del formulario */
+.form-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .form-container {
+    margin-left: 7rem;
+    margin-right: 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .form-container {
+    margin-left: 9rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .form-container {
+    margin-left: 12rem;
+  }
+}
+
+/* Tarjeta del formulario */
+.form-card {
+  position: relative;
+  transition: all 0.5s;
+}
+
+.form-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Borde con brillo */
+.glow-border {
+  position: absolute;
+  inset: -2px;
+  border-radius: 28px;
+  background: linear-gradient(to bottom right, rgba(56, 189, 248, 0.7), rgba(59, 130, 246, 0.5), rgba(99, 102, 241, 0.6));
+  opacity: 0.8;
+  filter: blur(4px);
+  transition: all 0.5s;
+}
+
+.form-card:hover .glow-border {
+  filter: blur(6px);
+  opacity: 0.9;
+}
+
+/* Overlay de vidrio */
+.glass-overlay {
+  position: absolute;
+  inset: -2px;
+  border-radius: 28px;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.1));
+  opacity: 0.6;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Interior de la tarjeta */
+.form-inner {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 26px;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 2.5rem;
+  transition: all 0.5s;
+}
+
+.form-card:hover .form-inner {
+  box-shadow: 0 12px 48px -8px rgba(0, 0, 0, 0.5);
+}
+
+/* Barra de acento superior */
+.accent-bar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 4px;
+  width: 40%;
+  background: linear-gradient(to right, #38bdf8, #3b82f6, #6366f1);
+  border-radius: 0 0 4px 4px;
+}
+
+/* Cabecera y logo */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.icon-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.icon-bg {
+  height: 4rem;
+  width: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background: linear-gradient(to bottom right, #38bdf8, #3b82f6, #4f46e5);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  border: 4px solid rgba(255, 255, 255, 0.5);
+}
+
+.icon {
+  height: 2rem;
+  width: 2rem;
+  color: white;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Indicador de pulso */
+.pulse-indicator {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  height: 1.25rem;
+  width: 1.25rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(2px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(56, 189, 248, 0.4);
+}
+
+.pulse-dot {
+  display: block;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 50%;
+  background: linear-gradient(to right, #38bdf8, #3b82f6);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+  }
+  
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(56, 189, 248, 0);
+  }
+  
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+  }
+}
+
+/* Textos del header */
+.brand-title {
+  margin-top: 1.5rem;
+  font-size: 2.25rem;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #0ea5e9;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #0ea5e9;
+}
+
+.subtext {
+  margin-top: 0.25rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(14, 165, 233, 0.9);
+}
+
+/* Título del formulario */
+.form-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0ea5e9;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Campos de formulario */
+.input-container {
+  margin-bottom: 1rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border-radius: 9999px;
+  background-color: #f3f4f6;
+  border: none;
+  outline: none;
+  transition: all 0.3s;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* Mejoras en los campos de formulario */
+.input-field.enhanced {
+  background-color: #ffffff;
+  border: 2px solid rgba(14, 165, 233, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-size: 1rem;
+  padding: 1.1rem 1rem 1.1rem 3.2rem;
+}
+
+/* Campo de contraseña con botón de visibilidad interno */
+.input-field.enhanced.password {
+  padding-right: 2.5rem;
+}
+
+.input-field:focus {
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+}
+
+.input-field.enhanced:focus {
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2);
+}
+
+.input-field::placeholder {
+  color: #9ca3af;
+}
+
+.input-field.enhanced::placeholder {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Icono dentro del input */
+.input-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding-left: 1rem;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.icon-svg {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #9ca3af;
+}
+
+.input-field.enhanced + .input-icon .icon-svg {
+  height: 1.4rem;
+  width: 1.4rem;
+  color: #0ea5e9;
+}
+
+
+
+
+/* Mini logo de email */
+/* Mini logo de email */
+.email-container::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 28px;
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230ea5e9' stroke='%230ea5e9' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='4' width='20' height='16' rx='2' fill='white' stroke='%230ea5e9'%3E%3C/rect%3E%3Cpath d='M22 7L12 14L2 7' stroke='%230ea5e9'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 20;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));
+  animation: float-email 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes float-email {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(-5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+/* Mini logo de candado */
+.password-container::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 28px;
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230ea5e9' stroke='%230ea5e9' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2' fill='white' stroke='%230ea5e9'%3E%3C/rect%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 20;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));
+  animation: float 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+
+
+
+/* Botón de visualización de contraseña en línea */
+.toggle-password-inline {
+  position: absolute;
+  top: 58%;
+  right: 4rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0ea5e9;
+  background-color: transparent;
+  border: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.toggle-password-inline:hover {
+  color: #0284c7;
+}
+
+/* Opciones de formulario */
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.link {
+  color: #0ea5e9;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: #0284c7;
+  text-decoration: underline;
+}
+
+/* Botones */
+.btn-primary {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(to right, #0284c7, #0ea5e9);
+  border: none;
+  transition: all 0.3s;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(to right, #0369a1, #0284c7);
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.45);
+  transform: translateY(-2px);
+}
+
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.35), 0 4px 12px rgba(14, 165, 233, 0.25);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  color: #1e293b;
+  background-color: #f3f4f6;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #e5e7eb;
+}
+
+/* Divisor */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: #e5e7eb;
+}
+
+.divider-text {
+  padding: 0 1rem;
+  color: #9ca3af;
+  font-size: 0.875rem;
+  background-color: white;
+}
+
+/* Footer */
+.footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.6875rem;
+  color: #64748b;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .form-inner {
+    padding: 2rem 1.5rem;
+  }
+  
+  .brand-title {
+    font-size: 2rem;
+  }
+}

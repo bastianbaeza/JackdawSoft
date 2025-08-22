@@ -1,0 +1,889 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "Pruebas API Backend Jackdaws",
+  "dateExported": "2025-08-22T08:48:00.000Z",
+  "version": "1.1",
+  "folders": [
+    {
+      "id": "folder-auth",
+      "name": "🔐 Autenticación",
+      "containerId": "",
+      "created": "2025-08-22T08:48:00.000Z",
+      "sortNum": 10000
+    },
+    {
+      "id": "folder-users",
+      "name": "👥 Gestión de Usuarios",
+      "containerId": "",
+      "created": "2025-08-22T08:48:00.000Z",
+      "sortNum": 20000
+    },
+    {
+      "id": "folder-audit",
+      "name": "📊 Auditoría y Sistema",
+      "containerId": "",
+      "created": "2025-08-22T08:48:00.000Z",
+      "sortNum": 30000
+    },
+    {
+      "id": "folder-system",
+      "name": "⚡ Salud del Sistema",
+      "containerId": "",
+      "created": "2025-08-22T08:48:00.000Z",
+      "sortNum": 40000
+    }
+  ],
+  "requests": [
+    {
+      "id": "req-health-check",
+      "name": "Verificación de Salud",
+      "url": "{{baseUrl}}/health",
+      "method": "GET",
+      "sortNum": 5000,
+      "created": "2025-08-22T08:48:00.000Z",
+      "modified": "2025-08-22T08:48:00.000Z",
+      "headers": [],
+      "params": [],
+      "tests": [
+        {
+          "type": "json-query",
+          "custom": "json.estado",
+          "action": "equal",
+          "value": "healthy"
+        },
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ],
+      "containerId": "folder-system",
+      "testResult": {}
+    },
+    {
+      "id": "req-root-endpoint",
+      "name": "Root API Endpoint",
+      "url": "{{baseUrl}}/",
+      "method": "GET",
+      "sortNum": 5100,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [],
+      "params": [],
+      "tests": [
+        {
+          "type": "json-query",
+          "custom": "json.message",
+          "action": "equal",
+          "value": "JackdawSoft Backend API"
+        },
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ],
+      "containerId": "folder-system",
+      "testResult": {}
+    },
+    {
+      "id": "req-login-superadmin",
+      "name": "🔑 Login Superadmin (DEFAULT)",
+      "url": "{{baseUrl}}/api/auth/login",
+      "method": "POST",
+      "sortNum": 10000,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"superadmin@jackdaws.local\",\n  \"password\": \"SuperAdmin123!\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "set-env-var",
+          "custom": "json.token",
+          "action": "setto",
+          "value": "superadmin_token"
+        },
+        {
+          "type": "set-env-var",
+          "custom": "json.user.id",
+          "action": "setto",
+          "value": "superadmin_id"
+        },
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.user.role",
+          "action": "equal",
+          "value": "superadmin"
+        }
+      ],
+      "containerId": "folder-auth",
+      "testResult": {}
+    },
+    {
+      "id": "req-login-invalid-credentials",
+      "name": "❌ Login Invalid Credentials",
+      "url": "{{baseUrl}}/api/auth/login",
+      "method": "POST",
+      "sortNum": 10100,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"wrong@example.com\",\n  \"password\": \"wrongpassword\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "400"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.message",
+          "action": "equal",
+          "value": "Credenciales inválidas"
+        }
+      ],
+      "containerId": "folder-auth",
+      "testResult": {}
+    },
+    {
+      "id": "req-get-profile",
+      "name": "👤 Get My Profile",
+      "url": "{{baseUrl}}/api/auth/me",
+      "method": "GET",
+      "sortNum": 10200,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        }
+      ],
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.role",
+          "action": "equal",
+          "value": "superadmin"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.email",
+          "action": "equal",
+          "value": "superadmin@jackdaws.local"
+        }
+      ],
+      "containerId": "folder-auth",
+      "testResult": {}
+    },
+    {
+      "id": "req-invite-admin-user",
+      "name": "📧 Invite Admin User",
+      "url": "{{baseUrl}}/api/auth/invite",
+      "method": "POST",
+      "sortNum": 10300,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"admin@jackdaws.local\",\n  \"role\": \"admin\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "set-env-var",
+          "custom": "json.userId",
+          "action": "setto",
+          "value": "admin_user_id"
+        },
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.message",
+          "action": "equal",
+          "value": "Invitación enviada exitosamente"
+        }
+      ],
+      "containerId": "folder-auth",
+      "testResult": {}
+    },
+    {
+      "id": "req-invite-operator-user",
+      "name": "📧 Invite Operator User",
+      "url": "{{baseUrl}}/api/auth/invite",
+      "method": "POST",
+      "sortNum": 10400,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"operator@jackdaws.local\",\n  \"role\": \"operator\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "set-env-var",
+          "custom": "json.userId",
+          "action": "setto",
+          "value": "operator_user_id"
+        },
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ],
+      "containerId": "folder-auth",
+      "testResult": {}
+    },
+    {
+      "id": "req-invite-support-user",
+      "name": "📧 Invite Support User", 
+      "url": "{{baseUrl}}/api/auth/invite",
+      "method": "POST",
+      "sortNum": 10500,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"support@jackdaws.local\",\n  \"role\": \"support\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "set-env-var",
+          "custom": "json.userId",
+          "action": "setto",
+          "value": "support_user_id"
+        },
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ],
+      "containerId": "folder-auth",
+      "testResult": {}
+    },
+    {
+      "id": "req-invite-duplicate-email",
+      "name": "❌ Invite Duplicate Email",
+      "url": "{{baseUrl}}/api/auth/invite",
+      "method": "POST",
+      "sortNum": 10600,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"admin@jackdaws.local\",\n  \"role\": \"admin\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "400"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.message",
+          "action": "equal",
+          "value": "Ya existe un usuario con este email"
+        }
+      ],
+      "containerId": "folder-auth",
+      "testResult": {}
+    },
+    {
+      "id": "req-activate-invalid-token",
+      "name": "❌ Activate Invalid Token",
+      "url": "{{baseUrl}}/api/auth/activate/invalid-token-123",
+      "method": "POST",
+      "sortNum": 10700,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"password\": \"NewPassword123!\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "400"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.message",
+          "action": "equal",
+          "value": "Token de activación inválido"
+        }
+      ],
+      "containerId": "folder-auth",
+      "testResult": {}
+    },
+    {
+      "id": "req-logout",
+      "name": "🚪 Logout",
+      "url": "{{baseUrl}}/api/auth/logout",
+      "method": "POST",
+      "sortNum": 10800,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        }
+      ],
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.message",
+          "action": "equal",
+          "value": "Logout exitoso"
+        }
+      ],
+      "containerId": "folder-auth",
+      "testResult": {}
+    },
+    {
+      "id": "req-list-users",
+      "name": "📋 List All Users",
+      "url": "{{baseUrl}}/api/users",
+      "method": "GET",
+      "sortNum": 20000,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        }
+      ],
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.users",
+          "action": "istype",
+          "value": "array"
+        }
+      ],
+      "containerId": "folder-users",
+      "testResult": {}
+    },
+    {
+      "id": "req-list-users-with-filters",
+      "name": "📋 List Users with Filters",
+      "url": "{{baseUrl}}/api/users?status=active&role=admin&page=1&limit=10",
+      "method": "GET",
+      "sortNum": 20100,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        }
+      ],
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.pagination",
+          "action": "istype",
+          "value": "object"
+        }
+      ],
+      "containerId": "folder-users",
+      "testResult": {}
+    },
+    {
+      "id": "req-get-specific-user",
+      "name": "👤 Get Specific User",
+      "url": "{{baseUrl}}/api/users/{{superadmin_id}}",
+      "method": "GET",
+      "sortNum": 20200,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        }
+      ],
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.email",
+          "action": "equal",
+          "value": "superadmin@jackdaws.local"
+        }
+      ],
+      "containerId": "folder-users",
+      "testResult": {}
+    },
+    {
+      "id": "req-update-user-role",
+      "name": "✏️ Update User Role",
+      "url": "{{baseUrl}}/api/users/{{admin_user_id}}",
+      "method": "PATCH",
+      "sortNum": 20300,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"role\": \"operator\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.message",
+          "action": "equal",
+          "value": "Usuario actualizado exitosamente"
+        }
+      ],
+      "containerId": "folder-users",
+      "testResult": {}
+    },
+    {
+      "id": "req-update-user-status",
+      "name": "✏️ Update User Status",
+      "url": "{{baseUrl}}/api/users/{{admin_user_id}}",
+      "method": "PATCH",
+      "sortNum": 20400,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"active\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ],
+      "containerId": "folder-users",
+      "testResult": {}
+    },
+    {
+      "id": "req-deactivate-user",
+      "name": "🚫 Deactivate User",
+      "url": "{{baseUrl}}/api/users/{{operator_user_id}}",
+      "method": "DELETE",
+      "sortNum": 20500,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"reason\": \"Usuario de prueba - deactivación\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.message",
+          "action": "equal",
+          "value": "Usuario desactivado exitosamente"
+        }
+      ],
+      "containerId": "folder-users",
+      "testResult": {}
+    },
+    {
+      "id": "req-reactivate-user",
+      "name": "✅ Reactivate User",
+      "url": "{{baseUrl}}/api/users/{{operator_user_id}}/reactivate",
+      "method": "PATCH",
+      "sortNum": 20600,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"reason\": \"Reactivación después de pruebas\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.message",
+          "action": "equal",
+          "value": "Usuario reactivado exitosamente"
+        }
+      ],
+      "containerId": "folder-users",
+      "testResult": {}
+    },
+    {
+      "id": "req-get-audit-logs",
+      "name": "📊 Get Audit Logs",
+      "url": "{{baseUrl}}/api/users/audit-logs",
+      "method": "GET",
+      "sortNum": 30000,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        }
+      ],
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.logs",
+          "action": "istype",
+          "value": "array"
+        }
+      ],
+      "containerId": "folder-audit",
+      "testResult": {}
+    },
+    {
+      "id": "req-get-audit-logs-filtered",
+      "name": "📊 Get Filtered Audit Logs",
+      "url": "{{baseUrl}}/api/users/audit-logs?action=user_invited&page=1&limit=10",
+      "method": "GET",
+      "sortNum": 30100,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        }
+      ],
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.total",
+          "action": "istype",
+          "value": "number"
+        }
+      ],
+      "containerId": "folder-audit",
+      "testResult": {}
+    },
+    {
+      "id": "req-get-system-stats",
+      "name": "📈 Get System Statistics",
+      "url": "{{baseUrl}}/api/users/system/stats",
+      "method": "GET",
+      "sortNum": 30200,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{superadmin_token}}"
+        }
+      ],
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.users.total",
+          "action": "istype",
+          "value": "number"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.roles.superAdmins",
+          "action": "istype",
+          "value": "number"
+        }
+      ],
+      "containerId": "folder-audit",
+      "testResult": {}
+    },
+    {
+      "id": "req-unauthorized-access",
+      "name": "❌ Unauthorized Access",
+      "url": "{{baseUrl}}/api/users",
+      "method": "GET",
+      "sortNum": 40000,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [],
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "401"
+        }
+      ],
+      "containerId": "folder-system",
+      "testResult": {}
+    },
+    {
+      "id": "req-invalid-token",
+      "name": "❌ Invalid Token",
+      "url": "{{baseUrl}}/api/auth/me",
+      "method": "GET",
+      "sortNum": 40100,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer invalid-token-123"
+        }
+      ],
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "401"
+        }
+      ],
+      "containerId": "folder-system",
+      "testResult": {}
+    },
+    {
+      "id": "req-not-found-endpoint",
+      "name": "❌ Not Found Endpoint",
+      "url": "{{baseUrl}}/api/nonexistent",
+      "method": "GET",
+      "sortNum": 40200,
+      "created": "2025-08-22T12:30:00.000Z",
+      "modified": "2025-08-22T12:30:00.000Z",
+      "headers": [],
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "404"
+        }
+      ],
+      "containerId": "folder-system",
+      "testResult": {}
+    }
+  ],
+  "environments": [
+    {
+      "id": "env-development",
+      "name": "Development",
+      "data": [
+        {
+          "name": "baseUrl",
+          "value": "http://localhost:3000"
+        },
+        {
+          "name": "superadmin_token",
+          "value": ""
+        },
+        {
+          "name": "superadmin_id",
+          "value": ""
+        },
+        {
+          "name": "admin_user_id",
+          "value": ""
+        },
+        {
+          "name": "operator_user_id",
+          "value": ""
+        },
+        {
+          "name": "support_user_id",
+          "value": ""
+        }
+      ]
+    }
+  ]
+}
